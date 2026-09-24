@@ -23,11 +23,22 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 92px;
+        }
         
         body {
             color: var(--dark);
             line-height: 1.6;
             background-color: #f9fafb;
+            overflow-x: hidden;
+        }
+
+        section,
+        footer {
+            scroll-margin-top: 92px;
         }
         
         .container {
@@ -79,10 +90,40 @@
             text-decoration: none;
             font-weight: 500;
             transition: all 0.3s ease;
+            position: relative;
         }
         
         .nav-links a:hover {
             color: #e0e7ff;
+        }
+
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -8px;
+            height: 2px;
+            background: white;
+            border-radius: 999px;
+            transform: scaleX(0);
+            transition: transform 0.25s ease;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            transform: scaleX(1);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0);
         }
         
         /* Hero Section */
@@ -268,27 +309,6 @@
             color: white;
         }
         
-        .social-links {
-            display: flex;
-            gap: 1rem;
-        }
-        
-        .social-links a {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            transition: all 0.3s ease;
-        }
-        
-        .social-links a:hover {
-            background: var(--primary);
-            transform: translateY(-3px);
-        }
-        
         .copyright {
             text-align: center;
             padding-top: 2rem;
@@ -299,8 +319,35 @@
         
         /* Responsive Design */
         @media (max-width: 768px) {
+            header {
+                padding: 1rem 0 0.75rem;
+            }
+
+            nav {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+
             .nav-links {
+                width: 100%;
+                gap: 1.25rem;
+                overflow-x: auto;
+                padding: 0 0 0.45rem;
+                scrollbar-width: none;
+            }
+
+            .nav-links::-webkit-scrollbar {
                 display: none;
+            }
+
+            .nav-links li {
+                flex: 0 0 auto;
+                margin-left: 0;
+            }
+
+            .nav-links a {
+                font-size: 0.92rem;
             }
             
             .hero h1 {
@@ -314,6 +361,25 @@
             .about-image {
                 height: 250px;
                 order: -1;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            .reveal {
+                opacity: 1;
+                transform: none;
             }
         }
     </style>
@@ -331,7 +397,6 @@
                     <li><a href="#home">Home</a></li>
                     <li><a href="#apps">Our Apps</a></li>
                     <li><a href="#about">About Us</a></li>
-                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
             </nav>
@@ -363,19 +428,19 @@
                     </div>
                     <div class="app-content">
                         <h3>Afiksed</h3>
-                        <p>Model Aktivitas Fisik Edukatif - An educational physical activity app designed to promote health and fitness.</p>
-                        <a href="privacy-policy.html" class="btn">Privacy Policy</a>
+                        <p>An educational physical activity app designed to promote healthy habits through engaging activities.</p>
+                        <a href="afiksed/privacy-policy.html" class="btn">Privacy Policy</a>
                     </div>
                 </div>
                 
                 <div class="app-card">
                     <div class="app-image">
-                        <i class="fas fa-plus-circle"></i>
+                        <i class="fas fa-flask"></i>
                     </div>
                     <div class="app-content">
-                        <h3>Coming Soon</h3>
-                        <p>We're working on new innovative applications that will be launched soon. Stay tuned for updates!</p>
-                        <a href="#" class="btn">Notify Me</a>
+                        <h3>Belajar Zat dan Perubahannya</h3>
+                        <p>A science learning app for seventh-grade students featuring visual lessons, quizzes, and interactive challenges.</p>
+                        <a href="belajar-zat/privacy-policy.html" class="btn">Privacy Policy</a>
                     </div>
                 </div>
             </div>
@@ -413,30 +478,52 @@
                         <li><a href="#home">Home</a></li>
                         <li><a href="#apps">Our Apps</a></li>
                         <li><a href="#about">About Us</a></li>
-                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
                     <h3>Contact Us</h3>
                     <ul>
-                        <li><i class="fas fa-envelope"></i> info@sintechsolution.com</li>
-                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-envelope"></i> <a href="mailto:mridhoputra7@gmail.com">mridhoputra7@gmail.com</a></li>
                     </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Follow Us</h3>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
                 </div>
             </div>
             <div class="copyright">
-                <p>&copy; 2025 Sintech Solution. All rights reserved.</p>
+                <p>&copy; 2026 Sintech Solution. All rights reserved.</p>
             </div>
         </div>
     </footer>
+    <script>
+        const animatedElements = document.querySelectorAll(
+            '.hero-content, .section-title, .app-card, .about-text, .about-image, .footer-column'
+        );
+
+        animatedElements.forEach((element) => element.classList.add('reveal'));
+
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+            });
+        }, { threshold: 0.14 });
+
+        animatedElements.forEach((element) => revealObserver.observe(element));
+
+        const sectionLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+        const observedSections = [...sectionLinks]
+            .map((link) => document.querySelector(link.getAttribute('href')))
+            .filter(Boolean);
+
+        const navigationObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                sectionLinks.forEach((link) => {
+                    link.classList.toggle('active', link.getAttribute('href') === `#${entry.target.id}`);
+                });
+            });
+        }, { rootMargin: '-35% 0px -55% 0px' });
+
+        observedSections.forEach((section) => navigationObserver.observe(section));
+    </script>
 </body>
 </html>
